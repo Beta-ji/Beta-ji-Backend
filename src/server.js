@@ -42,6 +42,23 @@ if (process.env.MONGODB_URI) {
 }
 
 // ============================================
+// ROOT ROUTE
+// ============================================
+
+app.get('/', (req, res) => {
+  res.json({ 
+    message: '✅ Beta Ji Backend is Running!',
+    docs: 'Visit /api/health for detailed status',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth/register',
+      bookings: '/api/bookings',
+      payments: '/api/payments'
+    }
+  });
+});
+
+// ============================================
 // HEALTH CHECK
 // ============================================
 
@@ -126,6 +143,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Beta Ji Backend running on port ${PORT}`);
   console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔗 API Root: http://localhost:${PORT}`);
   console.log(`🔗 API Health: http://localhost:${PORT}/api/health`);
 });
 
