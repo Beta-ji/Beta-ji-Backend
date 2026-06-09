@@ -1,0 +1,71 @@
+# ============================================
+# BETA JI BACKEND - ENVIRONMENT CONFIGURATION
+# ============================================
+# Created for local development
+# Replace with real values before production
+
+# ============================================
+# SERVER CONFIGURATION
+# ============================================
+NODE_ENV=development
+PORT=5000
+FRONTEND_URL=http://localhost:3000
+
+# ============================================
+# DATABASE
+# ============================================
+MONGODB_URI=mongodb://localhost:27017/betaji
+
+# ============================================
+# JWT AUTHENTICATION
+# ============================================
+JWT_SECRET=beta_ji_super_secret_jwt_key_2025_change_in_production
+JWT_EXPIRE=7d
+
+# ============================================
+# RAZORPAY PAYMENTS (Test Mode)
+# ============================================
+RAZORPAY_KEY_ID=rzp_test_1234567890
+RAZORPAY_SECRET=test_secret_1234567890
+
+# ============================================
+# SENDGRID EMAIL
+# ============================================
+SENDGRID_API_KEY=SG.test_sendgrid_api_key_123456
+SENDGRID_FROM_EMAIL=noreply@betaji.com
+
+# ============================================
+# TWILIO SMS & WHATSAPP
+# ============================================
+TWILIO_ACCOUNT_SID=ACtest1234567890test
+TWILIO_AUTH_TOKEN=test_twilio_auth_token_123456
+TWILIO_PHONE_NUMBER=+1234567890
+TWILIO_WHATSAPP_NUMBER=whatsapp:+1234567890
+
+# ============================================
+# GOOGLE MAPS API
+# ============================================
+GOOGLE_MAPS_API_KEY=AIzaSyDtest_google_maps_key_123456
+
+# ============================================
+# AWS S3 (Optional - for file uploads)
+# ============================================
+AWS_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+AWS_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+AWS_S3_BUCKET=betaji-bucket
+AWS_REGION=ap-south-1
+
+# ============================================
+# ADMIN CREDENTIALS
+# ============================================
+ADMIN_EMAIL=admin@betaji.com
+ADMIN_PASSWORD=AdminPassword123!
+
+# ============================================
+# NOTES:
+# - This is for LOCAL DEVELOPMENT ONLY
+# - Do NOT commit this file to GitHub
+# - Create .gitignore with: .env
+# - Replace values with real keys before deploying
+# - For production, use environment variables
+# ============================================
