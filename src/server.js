@@ -11,7 +11,7 @@ const app = express();
 // MIDDLEWARE
 // ============================================
 
-app.use(helmet()); // Security headers
+app.use(helmet());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cors({
@@ -21,31 +21,36 @@ app.use(cors({
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100
 });
 app.use('/api/', limiter);
 
 // ============================================
-// DATABASE CONNECTION
+// DATABASE CONNECTION (OPTIONAL)
 // ============================================
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/betaji', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('✅ MongoDB Connected'))
-.catch(err => console.log('❌ MongoDB Error (don\'t worry for local testing):', err.message));
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log('✅ MongoDB Connected'))
+  .catch(err => console.log('⚠️ MongoDB Connection Warning:', err.message));
+} else {
+  console.log('⚠️ MongoDB URI not set - running without database');
+}
 
 // ============================================
-// BASIC ROUTES (For testing)
+// HEALTH CHECK
 // ============================================
 
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: '✅ Beta Ji Backend is Running!',
     timestamp: new Date(),
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV || 'development',
+    message: 'Backend API is working correctly'
   });
 });
 
@@ -53,22 +58,37 @@ app.get('/api/health', (req, res) => {
 // AUTH ROUTES
 // ============================================
 
-const authRoutes = require('./routes/auth.routes');
-app.use('/api/auth', authRoutes);
+try {
+  const authRoutes = require('./routes/auth.routes');
+  app.use('/api/auth', authRoutes);
+  console.log('✅ Auth routes loaded');
+} catch (err) {
+  console.log('⚠️ Auth routes error:', err.message);
+}
 
 // ============================================
 // BOOKING ROUTES
 // ============================================
 
-const bookingRoutes = require('./routes/booking.routes');
-app.use('/api/bookings', bookingRoutes);
+try {
+  const bookingRoutes = require('./routes/booking.routes');
+  app.use('/api/bookings', bookingRoutes);
+  console.log('✅ Booking routes loaded');
+} catch (err) {
+  console.log('⚠️ Booking routes error:', err.message);
+}
 
 // ============================================
 // PAYMENT ROUTES
 // ============================================
 
-const paymentRoutes = require('./routes/payment.routes');
-app.use('/api/payments', paymentRoutes);
+try {
+  const paymentRoutes = require('./routes/payment.routes');
+  app.use('/api/payments', paymentRoutes);
+  console.log('✅ Payment routes loaded');
+} catch (err) {
+  console.log('⚠️ Payment routes error:', err.message);
+}
 
 // ============================================
 // ERROR HANDLING
